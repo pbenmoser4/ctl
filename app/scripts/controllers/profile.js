@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name ctlApp.controller:MainCtrl
+ * @name ctlApp.controller:ProfileController
  * @description
- * # MainCtrl
+ * # ProfileController
  * Controller of the ctlApp
  */
 angular.module('ctlApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('ProfileController', function ($scope) {
     $scope.todos = [
       'HTML5 Boilerplate',
       'AngularJS',
