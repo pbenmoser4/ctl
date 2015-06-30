@@ -63,6 +63,7 @@ angular.module('ctlApp')
 			},
 
 			createUser: function(credentials, successCallback, failureCallback) {
+				$window.alert('functioning');
 				if (!opts.inited) {
 					// We haven't init'ed the Auth Service, throw an error
 					throw 'Must initialize cmAuthService before calling its functions';
@@ -83,16 +84,21 @@ angular.module('ctlApp')
 				// We are going to need to search through the existing users to make sure that the one
 		        // We are trying to create doesn't exist yet. 
 				var queryString;
-		        if (newUser.email) {
-		            queryString = '[email = "' + newUser.email + '"]';
-		        } else if (newUser.username) {
-		            queryString = '[username = "' + newUser.username + '"]';
+		        if (credentials.email) {
+		            queryString = '[email = "' + credentials.email + '"]';
+		        } else if (credentials.username) {
+		            queryString = '[username = "' + credentials.username + '"]';
 		        }
 
+		        $window.alert(queryString);
+
 		        // Making the actual search call to our cm webservice object.
-		        self.cm.searchUsers(queryString, function(successData) {
-		            // This user already exists.
-		            console.log(successData);
+		        self.cm.searchUsers(queryString).on('success', function(successData) {
+		            // The search call returned successfully
+		            $window.alert('success search');
+
+		          	// We need to check to see if any objects were returned. If not, then no
+		          	// user exists that matches the query, and we can move forward with creation.
 		            if (JSON.stringify(successData) === '{}') {
 		                $window.alert('empty object');
 		                self.cm.createUser(credentials.email, credentials.password)
@@ -114,17 +120,21 @@ angular.module('ctlApp')
 								// Redirecting to the profile page once the user has logged in.
 								$location.path(opts.profilePath);
 								$rootScope.$apply();
+								$window.alert('New user created');
 							})
 							.on('failure', function(error) {
 								if (typeof failureCallback === 'function'){
 									failureCallback(error);
 								}
+								$window.alert('ERROR ERROR ERROR on creation');
 							});
+		            } else {
+		            	$window.alert('The user already exists, sucka.');
 		            }
-		        }, function(errorData) { 
+		        }).on('failure', function(errorData) { 
 		            // This user does not exist, create a new user.
 		            console.log(errorData);
-		            $window.alert('the user doesn\'t exist');
+		            $window.alert('ERROR ERROR ERROR on search');
 		        });
 
 				
