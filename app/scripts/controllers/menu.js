@@ -8,8 +8,8 @@
  * Controller of the ctlApp
  */
 
-angular.module('ctlApp').controller('MenuController', ['$scope', 'appFunctions', function($scope, appFunctions) {
-	$scope.sections = ['profile', 'search', 'health', 'log_out'];
+angular.module('ctlApp').controller('MenuController', ['$rootScope', '$scope', 'appFunctions', 'cmAuthService', function($rootScope, $scope, appFunctions, cmAuthService) {
+	$scope.sections = ['profile', 'search', 'health'];
 
 	$scope.toReadableText = function(inputText) {
 		inputText = inputText || '';
@@ -25,5 +25,9 @@ angular.module('ctlApp').controller('MenuController', ['$scope', 'appFunctions',
 		} else {
 			return '#/' + section;
 		}
-	};	
+	};
+
+	$scope.logout = function() {
+		cmAuthService.logout();
+	};
 }]);

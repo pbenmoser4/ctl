@@ -41,6 +41,10 @@
               <li ng-repeat="section in sections">
                 <a ng-href="#/{{section}}">{{toReadableText(section)}}</a>
               </li>
+
+              <button type="button" class="btn navbar-btn" ng-click="logout()">
+                <span aria-hidden="true">Logout</span>
+              </button>
             </ul>
           </div>
 

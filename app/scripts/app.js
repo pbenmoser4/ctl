@@ -44,10 +44,13 @@ angular
         templateUrl: 'views/profile.html',
         controller: 'ProfileController'
       })
-      .when('/log_out', {
-        redirectTo: '/login'
-      })
       .otherwise({
         redirectTo: '/login'
       });
-  });
+  })
+  .run(['$rootScope', '$location', 'cmService', 'cmAuthService', function($rootScope, $location, cmService, cmAuthService) {
+    cmAuthService.init(cmService.cmWebService, { /*options*/ },
+    {
+      // Callbacks
+    });
+  }]);
