@@ -1,7 +1,5 @@
 'use strict';
 
-// var cloudmine = require('cloudmine');
-
 /**
 @ngdoc service
 @name ctlApp.cmService
@@ -9,7 +7,7 @@
 */
 
 angular.module('ctlApp')
-	.service('cmService', ['$rootScope', function($rootScope) {
+	.service('cmService', ['$rootScope', '$window', function($rootScope, $window) {
 
 		// Setting up the CloudMine options that we will use throughout the demo
 		var cmOptions = {
@@ -38,6 +36,18 @@ angular.module('ctlApp')
 			failureCallback('failure');
 		};
 
+		this.update = function(_item) {
+			console.log(_item);
+		};
+
+		this.create = function(item) {
+			console.log(item);
+		};
+
+		this.delete = function(item) {
+			console.log(item);
+		};
+
 		/**
 		Calls the cmWebService searchUsers function. 
 
@@ -52,23 +62,43 @@ angular.module('ctlApp')
 			// Make the actual searchUsers call, and trigger callbacks on success or failure.
 			this.cmWebService.searchUsers(query)
 				.on('success', function(data) {
-					successCallback(data);
+					if (typeof successCallback == 'function') {
+						successCallback(data);
+					}
 				})
 				.on('failure', function(error) {
-					failureCallback(error);
+					if (typeof failureCallback == 'function') {
+						failureCallback(error);
+					}
 				});
 		};
 
-		this.update = function(_item) {
-			console.log(_item);
-		};
+		this.updateUser = function(updateDict, successCallback, failureCallback) {
 
-		this.create = function(item) {
-			console.log(item);
-		};
+			successCallback = successCallback || {};
+			failureCallback = failureCallback || {};
 
-		this.delete = function(item) {
-			console.log(item);
+			if (!updateDict) {
+				// If they haven't passed in any updates, then don't update anything!
+				return;
+			}
+
+			$window.alert('cmService about to try updating the user, st: ' + this.cmWebService.options.session_token + 
+				'\n\ndict: ' + updateDict);
+
+			this.cmWebService.updateUser(updateDict)
+				.on('success', function(data) {
+					$window.alert('cmService success updating user');
+					if (typeof successCallback == 'function') {
+						successCallback(data);
+					}
+				})
+				.on('error', function(error, results) {
+					$window.alert('cmService error updating searchUsers \n' + JSON.stringify(error, null, 2));
+					if (typeof failureCallback == 'function') {
+						failureCallback(error);
+					}
+				});
 		};
 
 	}]);

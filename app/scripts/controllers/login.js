@@ -9,6 +9,7 @@
  */
 angular.module('ctlApp')
   .controller('LoginController', ['$scope', '$window', 'cmAuthService', 'cmService', function ($scope, $window, cmAuthService, cmService) {
+
     $scope.login = function(user) {
     	cmAuthService.login({
     		email: user.email,
@@ -22,6 +23,7 @@ angular.module('ctlApp')
     };
 
     $scope.createUser = function(newUser) {
+
         cmAuthService.createUser({
             email: newUser.email,
             username: newUser.username,
@@ -31,7 +33,23 @@ angular.module('ctlApp')
                 username: newUser.username
             }
         }, function(successData) {
-            console.log(success);
+
+            cmAuthService.login({
+                email: newUser.email,
+                password: newUser.password
+            }, function (loginSuccessData){
+
+                $window.alert('login successful after user creation');
+
+                cmService.updateUser({email: newUser.email}, function(d){
+                    console.log(d);
+                }, function(d){
+                    console.log(d);
+                });
+
+            }, function (loginError){
+                console.log(loginError);
+            });
         }, function(errorData) {
             console.log(errorData);
         });

@@ -62,8 +62,8 @@ angular.module('ctlApp')
 				});
 			},
 
-			createUser: function(credentials, successCallback, failureCallback) {
-				$window.alert('functioning');
+			createUser: function(credentials, createUserSuccessCallback, createUserFailureCallback) {
+
 				if (!opts.inited) {
 					// We haven't init'ed the Auth Service, throw an error
 					throw 'Must initialize cmAuthService before calling its functions';
@@ -90,43 +90,30 @@ angular.module('ctlApp')
 		            queryString = '[username = "' + credentials.username + '"]';
 		        }
 
-		        $window.alert(queryString);
-
 		        // Making the actual search call to our cm webservice object.
 		        self.cm.searchUsers(queryString).on('success', function(successData) {
 		            // The search call returned successfully
-		            $window.alert('success search');
 
 		          	// We need to check to see if any objects were returned. If not, then no
 		          	// user exists that matches the query, and we can move forward with creation.
 		            if (JSON.stringify(successData) === '{}') {
-		                $window.alert('empty object');
+
 		                self.cm.createUser(credentials.email, credentials.password)
 							.on('success', function(data){
-
-								// If there is no currentUser object attached to the rootScope, create an empty dict
-								$rootScope.currentUser = $rootScope.currentUser || {};
-
-								// We don't want the password getting out!
-								delete credentials.password;
-
-								// Add the login credentials (should just be a username or email) to the currentUser
-								$rootScope.currentUser.credentials = credentials;
-
-								if (typeof successCallback === 'function'){
-									successCallback(data);
+								// Once the user is created, send the control back to the login controller
+								if (typeof createUserSuccessCallback == 'function'){
+									createUserSuccessCallback(data);
 								}
-
-								// Redirecting to the profile page once the user has logged in.
-								$location.path(opts.profilePath);
-								$rootScope.$apply();
-								$window.alert('New user created');
 							})
 							.on('failure', function(error) {
-								if (typeof failureCallback === 'function'){
-									failureCallback(error);
+								if (typeof createUserFailureCallback == 'function'){
+									createUserFailureCallback(error);
 								}
-								$window.alert('ERROR ERROR ERROR on creation');
+							})
+							.on('error', function(error) {
+								if (typeof createUserFailureCallback == 'function'){
+									createUserFailureCallback(error);
+								}
 							});
 		            } else {
 		            	$window.alert('The user already exists, sucka.');
@@ -134,7 +121,6 @@ angular.module('ctlApp')
 		        }).on('failure', function(errorData) { 
 		            // This user does not exist, create a new user.
 		            console.log(errorData);
-		            $window.alert('ERROR ERROR ERROR on search');
 		        });
 
 				

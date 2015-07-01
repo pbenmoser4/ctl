@@ -1,1 +1,41 @@
-<h1>Profile</h1>
+<h1>{{profileName}}</h1>
+<div class='container'>
+	<form class="form-horizontal">
+
+		<div ng-switch on='editing'>
+			<div ng-switch-when='true'>
+
+				<div ng-repeat="field in fields">
+			
+					<div class="form-group">
+						<label for="{{field.name}}">{{field.name}}</label>
+						<input type="string" class="form-control" id="{{field.name}}" placeholder="{{field.value !== '' ? field.value : field.placeholder}}" ng-model="field.value">
+					</div>
+					<hr/>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-default" ng-click="update()">Submit Updates</button>
+				</div>
+
+  			</div>
+
+  			<div ng-switch-when='false'>
+
+  				<div ng-repeat="field in fields">
+			
+					<div class="form-group">
+						<h3>{{field.name}}: {{field.value}}</h3>
+					</div>
+					<hr/>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-default" ng-click="edit()">Edit Profile</button>
+				</div>
+
+  			</div> 
+		</div>
+
+	</form>
+</div>
