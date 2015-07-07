@@ -8,8 +8,8 @@
 				<div ng-repeat="field in fields">
 			
 					<div class="form-group">
-						<label for="{{field.name}}">{{field.name}}</label>
-						<input type="string" class="form-control" id="{{field.name}}" placeholder="{{field.value !== '' ? field.value : field.placeholder}}" ng-model="field.value">
+						<label for="{{field.title}}">{{field.title}}</label>
+						<input type="string" class="form-control" id="{{field.title}}" placeholder="{{field.value !== '' ? field.value : field.placeholder}}" ng-model="field.value">
 					</div>
 					<hr/>
 				</div>
@@ -25,7 +25,7 @@
   				<div ng-repeat="field in fields">
 			
 					<div class="form-group">
-						<h3>{{field.name}}: {{field.value}}</h3>
+						<h3>{{field.title}}: {{field.value}}</h3>
 					</div>
 					<hr/>
 				</div>

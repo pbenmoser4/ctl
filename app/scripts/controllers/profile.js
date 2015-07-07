@@ -9,7 +9,7 @@
  */
 
 angular.module('ctlApp')
-  .controller('ProfileController', ['$scope', '$rootScope', '$window', function ($scope, $rootScope, $window) {
+  .controller('ProfileController', ['$scope', '$rootScope', '$window', 'cmService', function ($scope, $rootScope, $window, cmService) {
   	// $window.alert(' start');
 
   	/**
@@ -23,28 +23,48 @@ angular.module('ctlApp')
   	// Getting the current user so that we can populate the fields when we open the page.
   	var currentUser = $rootScope.currentUser || {};
   	var currentName = currentUser.name || '';
-  	var currentEmail = currentUser.email || '';
+  	var currentEmail = currentUser.email || $rootScope.currentUser.credentials.email;
   	var currentLocation = currentUser.location || '';
   	var currentLang = currentUser.language || '';
 
   	$scope.profileName = 'Profile Page';
 
   	// Setting up an array that represents the different profile fields that the users can interact with
-    $scope.fields = [
-    	{name: 'Name', value: currentName, placeholder: 'Enter name'},
-    	{name: 'Email', value: currentEmail, placeholder: 'Enter email'},
-    	{name: 'Location', value: currentLocation, placeholder: 'Enter location'},
-    	{name: 'Language', value: currentLang, placeholder: 'Enter your favorite programming language!'}
-    ];
-    
-    $scope.editing = 'true';
+    // $scope.fields = [
+    // 	{name: 'Name', value: currentName, placeholder: 'Enter name'},
+    // 	{name: 'Email', value: currentEmail, placeholder: 'Enter email'},
+    // 	{name: 'Location', value: currentLocation, placeholder: 'Enter location'},
+    // 	{name: 'Language', value: currentLang, placeholder: 'Enter your favorite programming language!'}
+    // ];
 
-    $scope.edit = function(index) {
-    	if (fields[index].editable === 'true') {
-    		fields[index].editable = 'false';
-    	} else {
-    		fields[index].editable = 'true';
-    	}
+    $scope.fields = {
+      name: {title: 'Name', value: currentName, placeholder: 'Enter name'},
+      email: {title: 'Email', value: currentEmail, placeholder: 'Enter email'},
+      location: {title: 'Location', value: currentLocation, placeholder: 'Enter location'},
+      language: {title: 'Language', value: currentLang, placeholder: 'Enter your favorite programming language!'}
+    };
+    
+    $scope.editing = 'false';
+
+    $scope.edit = function() {
+    	$scope.editing = 'true';
+    }
+
+    $scope.update = function() {
+      $scope.editing = 'false';
+      var updateDict = {
+        name: $scope.fields.name.value,
+        email: $scope.fields.email.value,
+        location: $scope.fields.location.value,
+        language: $scope.fields.language.value
+      }
+      cmService.updateUser(updateDict,
+        function(updateSuccessData) {
+          $window.alert('success\n' + JSON.stringify(updateSuccessData));
+        },
+        function(updateError){
+          $window.alert('error\n' + JSON.stringify(updateError));
+        });
     }
 
   }]);

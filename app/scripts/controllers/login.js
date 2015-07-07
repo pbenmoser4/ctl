@@ -8,7 +8,7 @@
  * Controller of the ctlApp
  */
 angular.module('ctlApp')
-  .controller('LoginController', ['$scope', '$window', 'cmAuthService', 'cmService', function ($scope, $window, cmAuthService, cmService) {
+  .controller('LoginController', ['$scope', '$rootScope', '$window', 'cmAuthService', 'cmService', function ($scope, $rootScope, $window, cmAuthService, cmService) {
 
     $scope.login = function(user) {
     	cmAuthService.login({
@@ -34,14 +34,17 @@ angular.module('ctlApp')
             }
         }, function(successData) {
 
+            $window.alert('create user success:\n' + JSON.stringify(successData, null, 2));
+
             cmAuthService.login({
                 email: newUser.email,
                 password: newUser.password
             }, function (loginSuccessData){
 
-                $window.alert('login successful after user creation');
+                $window.alert('login successful after user creation:\n' + JSON.stringify(loginSuccessData, null, 2));
+                $window.alert('Web Service: ' + JSON.stringify($rootScope.currentUser, null, 2));
 
-                cmService.updateUser({email: newUser.email}, function(d){
+                cmService.updateUser({something: "something"}, function(d){
                     console.log(d);
                 }, function(d){
                     console.log(d);

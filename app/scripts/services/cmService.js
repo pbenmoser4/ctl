@@ -12,8 +12,7 @@ angular.module('ctlApp')
 		// Setting up the CloudMine options that we will use throughout the demo
 		var cmOptions = {
 			appid: 'd46948e3e8bb49aeac5716d84258d7dd',
-			apikey: '82465b3934d04acd918f97ddbe034bd0',
-			applevel: true // Change this if you want calls to become user-level
+			apikey: 'CC05B5846DC445ECA848F35AB11EE70F',
 		};
 
 		var ws = new cloudmine.WebService(cmOptions);
@@ -83,8 +82,8 @@ angular.module('ctlApp')
 				return;
 			}
 
-			$window.alert('cmService about to try updating the user, st: ' + this.cmWebService.options.session_token + 
-				'\n\ndict: ' + updateDict);
+			$window.alert('cmService about to try updating the user, st: ' + JSON.stringify(this.cmWebService.options, null, 2) + 
+				'\n\ndict: ' + JSON.stringify(updateDict) + '\n');
 
 			this.cmWebService.updateUser(updateDict)
 				.on('success', function(data) {
@@ -94,11 +93,13 @@ angular.module('ctlApp')
 					}
 				})
 				.on('error', function(error, results) {
-					$window.alert('cmService error updating searchUsers \n' + JSON.stringify(error, null, 2));
+					$window.alert('cmService error updating users \n' + JSON.stringify(error, null, 2));
+					$window.alert('results: ' + JSON.stringify(results, null, 2));
 					if (typeof failureCallback == 'function') {
 						failureCallback(error);
 					}
 				});
+			
 		};
 
 	}]);
