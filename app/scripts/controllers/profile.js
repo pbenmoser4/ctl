@@ -22,8 +22,9 @@ angular.module('ctlApp')
 
   	// Getting the current user so that we can populate the fields when we open the page.
   	var currentUser = $rootScope.currentUser || {};
+
   	var currentName = currentUser.name || '';
-  	var currentEmail = currentUser.email || $rootScope.currentUser.credentials.email;
+  	var currentEmail = currentUser.email || currentUser.credentials.email || ''  ;
   	var currentLocation = currentUser.location || '';
   	var currentLang = currentUser.language || '';
 

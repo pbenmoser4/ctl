@@ -56,6 +56,7 @@ angular.module('ctlApp')
 						// There is no session token associated with the auth service's CloudMine Webservice,
 						// or there is no currentUser stored at the root scope.
 						// Send them to the login page.
+						$window.alert('You must log in before accessing ' + next.originalPath);
 						return $location.path(opts.loginPath);
 					}
 

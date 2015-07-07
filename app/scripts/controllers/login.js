@@ -15,10 +15,13 @@ angular.module('ctlApp')
     		email: user.email,
     		password: user.password
     	}, function(successData){
-    		// success!
-    		console.log(successData);
+    		// Successful login!
+    		$window.alert('success logging in!\n' + JSON.stringify(successData));
+
+            $rootScope.currentUser = angular.extend({}, $rootScope.currentUser, successData.profile || {});
+
     	}, function(error){
-    		$window.alert(error);
+    		$window.alert('Error logging in ' + error);
     	});
     };
 
@@ -44,7 +47,7 @@ angular.module('ctlApp')
                 $window.alert('login successful after user creation:\n' + JSON.stringify(loginSuccessData, null, 2));
                 $window.alert('Web Service: ' + JSON.stringify($rootScope.currentUser, null, 2));
 
-                cmService.updateUser({something: "something"}, function(d){
+                cmService.updateUser({something: 'something'}, function(d){
                     console.log(d);
                 }, function(d){
                     console.log(d);
