@@ -9,9 +9,11 @@
  */
 angular.module('ctlApp')
   .controller('HealthController', function ($scope) {
-    $scope.todos = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+
+    $scope.placeHolder = 'Tell us about something healthy!!';
+
+    $scope.submit = function() {
+    	// Submit the healthy habit that you entered into the text field
+    }
+
   });

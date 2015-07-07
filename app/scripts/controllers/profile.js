@@ -33,12 +33,6 @@ angular.module('ctlApp')
 
 
   	// Setting up an array that represents the different profile fields that the users can interact with
-    // $scope.fields = [
-    // 	{name: 'Name', value: currentName, placeholder: 'Enter name'},
-    // 	{name: 'Email', value: currentEmail, placeholder: 'Enter email'},
-    // 	{name: 'Location', value: currentLocation, placeholder: 'Enter location'},
-    // 	{name: 'Language', value: currentLang, placeholder: 'Enter your favorite programming language!'}
-    // ];
 
     $scope.fields = {
       name: {title: 'Name', value: currentName, placeholder: 'Enter name'},
