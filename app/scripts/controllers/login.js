@@ -21,7 +21,7 @@ angular.module('ctlApp')
             $rootScope.currentUser = angular.extend({}, $rootScope.currentUser, successData.profile || {});
 
     	}, function(error){
-    		$window.alert('Error logging in ' + error);
+    		$window.alert('Error logging in ' + JSON.stringify(error, null, 2));
     	});
     };
 

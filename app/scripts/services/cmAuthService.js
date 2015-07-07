@@ -152,11 +152,6 @@ angular.module('ctlApp')
 					$location.path(opts.profilePath);
 					$rootScope.$apply();
 
-				}).on('unauthorized', function(error) {
-					// Fire off the failureCallback for the unauthorized error.
-					if (typeof failureCallback === 'function'){
-						failureCallback(error);
-					}
 				}).on('error', function(error) {
 					// Some sort of error occured
 					if (typeof failureCallback === 'function'){
