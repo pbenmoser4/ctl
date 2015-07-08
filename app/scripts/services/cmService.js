@@ -22,9 +22,7 @@ angular.module('ctlApp')
 
 		// Just doing this so that grunt stops throwing damn errors. 
 		$rootScope.ws = ws;
-
-		// var requestQueue = {};
-
+		
 		this.get = function(query) {
 			console.log(query);
 		};
@@ -35,12 +33,22 @@ angular.module('ctlApp')
 			failureCallback('failure');
 		};
 
-		this.update = function(_item) {
-			console.log(_item);
+		this.update = function(item) {
+			console.log(item);
 		};
 
-		this.create = function(item) {
-			console.log(item);
+		this.create = function(item, options, successCallback, failureCallback) {
+			// If the options passed into the function have applevel:true, add it to the 'set' call.
+			var setOptions = options.applevel === true ? {applevel : true} : {};
+
+			// Call to CloudMine to create an object
+			this.cmWebService.set('', item, setOptions)
+				.on('success', function(data) {
+					successCallback(data);
+				})
+				.on('error', function(error) {
+					failureCallback(error);
+				});
 		};
 
 		this.delete = function(item) {

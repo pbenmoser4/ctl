@@ -1,7 +1,29 @@
 <h1>Health</h1>
+
 <hr/>
+
 <div class="container"> 
 	<form class="form-horizontal">
-		<h3>Add Healthy Habits</h3>
+		<div class="form-group">
+
+			<label for="health-item">Add Healthy Habits:</label>
+			<div class="form-group">
+				<textarea class="form-control" rows="5" id="health-item" placeholder="{{placeholder}}" ng-model="healthItem" style="resize:none"></textarea>
+			</div>
+			<span>Date: {{date | date : 'short'}}</span> <br/><br/>
+			<button type="submit" class="btn btn-default" ng-click="submitHealthItem()">Add Item</button>
+		</div>
 	</form>
+</div>
+
+<hr/>
+
+<div class="container">
+	<ul class="list-group">
+		<li ng-repeat="item in healthyItems">
+			<div class="container">
+
+			</div>
+		</li>
+	</ul>
 </div>

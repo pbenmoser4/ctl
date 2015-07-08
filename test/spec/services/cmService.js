@@ -14,6 +14,19 @@ describe('Service: cmService', function () {
 	}));
 
 	it('should instantiate a WebService object with https://api.cloudmine.me as its apiroot', function(){
-		expect(cmService.ws.options.apiroot).toEqual('https://api.cloudmine.me');
+		expect(cmService.cmWebService.options.apiroot).toEqual('https://api.cloudmine.me');
 	});
+
+	// it('should create an object successfully with no options passed', function() {
+	// 	var itemToCreate = {name: 'ben', location: 'PHL'};
+	// 	cmService.create(itemToCreate, {}, 
+	// 		function(successData) {
+	// 			console.log(JSON.stringify(successData, null, 2));
+	// 			expect(typeof successData).toBe(null);
+	// 		},
+	// 		function(error) {
+	// 			console.log(JSON.stringify(error, null, 2));
+	// 			expect(typeof error).toBe(null);
+	// 		});
+	// });
 });
