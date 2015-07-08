@@ -22,7 +22,7 @@ angular.module('ctlApp')
 
 		// Just doing this so that grunt stops throwing damn errors. 
 		$rootScope.ws = ws;
-		
+
 		this.get = function(query) {
 			console.log(query);
 		};
@@ -33,20 +33,26 @@ angular.module('ctlApp')
 			failureCallback('failure');
 		};
 
-		this.update = function(item) {
+		this.update = function(item, options, successCallback, failureCallback) {
 			console.log(item);
+			console.log(options);
+			successCallback('success');
+			failureCallback('failure');
 		};
 
 		this.create = function(item, options, successCallback, failureCallback) {
 			// If the options passed into the function have applevel:true, add it to the 'set' call.
 			var setOptions = options.applevel === true ? {applevel : true} : {};
 
-			// Call to CloudMine to create an object
+			// Call to CloudMine to create an object. We use '' so that CloudMine automatically
+			// generates a unique pin for us
 			this.cmWebService.set('', item, setOptions)
 				.on('success', function(data) {
+					// Successful set callback
 					successCallback(data);
 				})
 				.on('error', function(error) {
+					// failed set callback
 					failureCallback(error);
 				});
 		};
