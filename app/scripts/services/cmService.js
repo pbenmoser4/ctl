@@ -23,14 +23,34 @@ angular.module('ctlApp')
 		// Just doing this so that grunt stops throwing damn errors. 
 		$rootScope.ws = ws;
 
-		this.get = function(query) {
+		this.get = function(query, successCallback, failureCallback) {
 			console.log(query);
+			ws.get(query)
+				.on('success', function(successData) {
+					$window.alert('success getting object\n' + JSON.stringify(successData, null, 2));
+					if (typeof successCallback == 'function') {
+						successCallback(successData);
+					}
+				})
+				.on('error', function(error) {
+					$window.alert('error getting object\n' + JSON.stringify(error, null, 2));
+					if (typeof failureCallback == 'function'){
+						failureCallback(error);
+					}
+				});
 		};
 
-		this.search = function(query, successCallback, failureCallback) {
-			console.log(query);
-			successCallback('success');
-			failureCallback('failure');
+		this.search = function(queryString, options, successCallback, failureCallback) {
+			console.log(queryString);
+			var req = ws.search(queryString, options);
+			$window.alert(JSON.stringify(req["headers"], null, 2));
+
+			req.on('success', function(data) {
+					successCallback(data);
+				})
+				.on('error', function(error) {
+					failureCallback(error);
+				})
 		};
 
 		this.update = function(item, options, successCallback, failureCallback) {
@@ -96,19 +116,13 @@ angular.module('ctlApp')
 				return;
 			}
 
-			$window.alert('cmService about to try updating the user, st: ' + JSON.stringify(this.cmWebService.options, null, 2) + 
-				'\n\ndict: ' + JSON.stringify(updateDict) + '\n');
-
 			this.cmWebService.updateUser(updateDict)
 				.on('success', function(data) {
-					$window.alert('cmService success updating user');
 					if (typeof successCallback == 'function') {
 						successCallback(data);
 					}
 				})
 				.on('error', function(error, results) {
-					$window.alert('cmService error updating users \n' + JSON.stringify(error, null, 2));
-					$window.alert('results: ' + JSON.stringify(results, null, 2));
 					if (typeof failureCallback == 'function') {
 						failureCallback(error);
 					}

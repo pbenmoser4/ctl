@@ -47,7 +47,7 @@ angular.module('ctlApp')
                 $window.alert('login successful after user creation:\n' + JSON.stringify(loginSuccessData, null, 2));
                 $window.alert('Web Service: ' + JSON.stringify($rootScope.currentUser, null, 2));
 
-                cmService.updateUser({something: 'something'}, function(d){
+                cmService.updateUser({email: newUser.email}, function(d){
                     console.log(d);
                 }, function(d){
                     console.log(d);

@@ -6,9 +6,14 @@
 	<form class="form-horizontal">
 		<div class="form-group">
 
-			<label for="health-item">Add Healthy Habits:</label>
+			<label for="health-item-title">Add a Healthy Habit:</label>
 			<div class="form-group">
-				<textarea class="form-control" rows="5" id="health-item" placeholder="{{placeholder}}" ng-model="healthItem" style="resize:none"></textarea>
+				<input type="text" class="form-control" placeholder="{{titlePlaceholder}}" ng-model="healthItemTitle"></input>
+			</div>
+
+			<label for="health-item-data">Description:</label>
+			<div class="form-group">
+				<textarea class="form-control" rows="5" id="health-item-data" placeholder="{{placeholder}}" ng-model="healthItemData" style="resize:none"></textarea>
 			</div>
 			<span>Date: {{date | date : 'short'}}</span> <br/><br/>
 			<button type="submit" class="btn btn-default" ng-click="submitHealthItem()">Add Item</button>
@@ -18,12 +23,17 @@
 
 <hr/>
 
+<h1>My Healthy Items</h1>
+
 <div class="container">
-	<ul class="list-group">
-		<li ng-repeat="item in healthyItems">
-			<div class="container">
-				<span>{{healthyItem.data}}</span>
-			</div>
-		</li>
-	</ul>
+
+	<div class="list-group" ng-repeat="item in healthyItems">
+		<div class="list-group-item" style="{background-color:#666666}">
+			<h3 class="list-group-item-heading">{{item.title}}</h3>
+			<h5 class="list-group-item-heading">Created: {{item.createdDate | date:'short'}}</h5>
+			<hr/>
+			<p class="list-group-item-text">{{item.data}}</p>
+		</div>
+	</div>
+
 </div>
