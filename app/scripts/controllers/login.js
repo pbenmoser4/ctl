@@ -36,18 +36,13 @@ angular.module('ctlApp')
                 username: newUser.username
             }
         }, function(successData) {
-
-            $window.alert('create user success:\n' + JSON.stringify(successData, null, 2));
-
+            $window.alert('created user');
             cmAuthService.login({
                 email: newUser.email,
                 password: newUser.password
             }, function (loginSuccessData){
 
-                $window.alert('login successful after user creation:\n' + JSON.stringify(loginSuccessData, null, 2));
-                $window.alert('Web Service: ' + JSON.stringify($rootScope.currentUser, null, 2));
-
-                cmService.updateUser({email: newUser.email}, function(d){
+                cmService.updateUser({email: newUser.email, createdDate:Date()}, function(d){
                     console.log(d);
                 }, function(d){
                     console.log(d);
@@ -57,6 +52,7 @@ angular.module('ctlApp')
                 console.log(loginError);
             });
         }, function(errorData) {
+            $window.alert('did not create user\n\n' + JSON.stringify(errorData));
             console.log(errorData);
         });
     };

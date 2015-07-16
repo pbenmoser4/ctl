@@ -8,9 +8,9 @@
 
 				<div ng-repeat="field in fields">
 			
-					<div class="form-group">
-						<label for="{{field.title}}">{{field.title}}</label>
-						<input type="string" class="form-control" id="{{field.title}}" placeholder="{{field.value !== '' ? field.value : field.placeholder}}" ng-model="field.value">
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon">{{field.title}}</span>
+						<input type="string" class="form-control" id="{{field.title}}" placeholder="{{field.value !== '' ? field.value : field.placeholder}}" ng-model="field.value" aria-describedby="basic-addon">
 					</div>
 					<hr/>
 				</div>
@@ -26,11 +26,12 @@
   			<div ng-switch-when='false'>
 
   				<div ng-repeat="field in fields">
-			
-					<!-- <div class="form-group"> -->
-						<h3>{{field.title}}:</h3> <p> {{field.value}}</p>
-					<!-- </div> -->
-					<hr/>
+				
+					<div class="panel panel-default">
+						<div class="panel-heading">{{field.title}}</div>
+						<div class="panel-body">{{field.value}}</div>
+					</div>
+					
 				</div>
 
 				<div class="form-group">

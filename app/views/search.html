@@ -35,9 +35,11 @@
 			</div>
 			<div ng-switch-when="user">
 				<h3 class="list-group-item-heading">{{result.email}}</h3>
+				<h5>{{result.username}}</h5>
 				<hr/>
 				<p class="list-group-item-text">Location: {{result.location}}</p>
 				<p class="list-group-item-text">Language: {{result.language}}</p>
+				<p class="list-group-item-text">Joined: {{result.createdDate}}</p>
 			</div>
 		</div>
 	</div>
