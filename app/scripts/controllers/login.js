@@ -16,8 +16,6 @@ angular.module('ctlApp')
     		password: user.password
     	}, function(successData){
     		// Successful login!
-    		$window.alert('success logging in!\n' + JSON.stringify(successData));
-
             $rootScope.currentUser = angular.extend({}, $rootScope.currentUser, successData.profile || {});
 
     	}, function(error){
@@ -36,7 +34,6 @@ angular.module('ctlApp')
                 username: newUser.username
             }
         }, function(successData) {
-            $window.alert('created user');
             cmAuthService.login({
                 email: newUser.email,
                 password: newUser.password

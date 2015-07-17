@@ -47,16 +47,19 @@ angular.module('ctlApp')
 				// shouldn't.
 				$rootScope.$on('$routeChangeStart', function(event, next, current) {
 
-					if($location.path() === opts.loginPath || $location.path() === opts.rootPath || $location.path() === opts.aboutPath) {
+					if($location.path() === opts.loginPath || $location.path() === opts.rootPath) {
 						// The user doesn't need to be authenticated, because they're not going anywhere
-						return;
+						if(self.cm.options.session_token || $rootScope.currentUser != null){
+							return $location.path(opts.profilePath);
+						} else {
+							return;
+						}
 					} 
 
 					if (!self.cm.options.session_token || $rootScope.currentUser == null) {
 						// There is no session token associated with the auth service's CloudMine Webservice,
 						// or there is no currentUser stored at the root scope.
 						// Send them to the login page.
-						$window.alert('You must log in before accessing ' + next.originalPath);
 						return $location.path(opts.loginPath);
 					}
 
@@ -99,25 +102,37 @@ angular.module('ctlApp')
 		          	// user exists that matches the query, and we can move forward with creation.
 		            if (JSON.stringify(successData) === '{}') {
 
-		                self.cm.createUser(credentials.email, credentials.password)
+		                self.cm.createUser(credentials.email, credentials.password, {
+		                	snippet:'introEmail',
+		                	params: {
+		                		email: 'pbenmoser4@gmail.com',
+		                		name: 'Ben Moser'
+		                	}
+		                })
 							.on('success', function(data){
+								$window.alert('success');
 								// Once the user is created, send the control back to the login controller
 								if (typeof createUserSuccessCallback == 'function'){
 									createUserSuccessCallback(data);
 								}
 							})
 							.on('failure', function(error) {
+								$window.alert('failure');
 								if (typeof createUserFailureCallback == 'function'){
 									createUserFailureCallback(error);
 								}
 							})
 							.on('error', function(error) {
+								$window.alert('error');
 								if (typeof createUserFailureCallback == 'function'){
 									createUserFailureCallback(error);
 								}
+							})
+							.on('result', function(data) {
+								$window.alert('Create user result has been returned:\n\n' + JSON.stringify(data, null, 2));
 							});
 		            } else {
-		            	$window.alert('The user already exists, sucka.');
+		            	$window.alert('The user already exists.');
 		            }
 		        }).on('failure', function(errorData) { 
 		            // This user does not exist, create a new user.

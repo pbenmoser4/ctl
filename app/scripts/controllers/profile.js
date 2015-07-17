@@ -59,7 +59,7 @@ angular.module('ctlApp')
       }
       cmService.updateUser(updateDict,
         function(updateSuccessData) {
-          $window.alert('success\n' + JSON.stringify(updateSuccessData));
+          // Successful update callback
         },
         function(updateError){
           $window.alert('error\n' + JSON.stringify(updateError));
